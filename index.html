@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Underwater Drone Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
         /* Custom scrollbar for logs */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        
+
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -42,6 +51,7 @@
         }
     </script>
 </head>
+
 <body class="bg-gray-900 text-white min-h-screen p-6 flex flex-col gap-6">
 
     <!-- Header -->
@@ -55,24 +65,30 @@
                 <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 <span class="text-green-400 text-xs font-bold tracking-widest">ONLINE</span>
             </div>
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-purple-500/20"></div>
+            <div
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-purple-500/20">
+            </div>
         </div>
     </header>
 
     <!-- Main Grid -->
     <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-grow">
-        
+
         <!-- Telemetry Chart (Spans 2 columns) -->
-        <div class="lg:col-span-2 glass-panel rounded-2xl p-6 shadow-2xl shadow-blue-900/5 transition-all hover:shadow-blue-900/10">
+        <div
+            class="lg:col-span-2 glass-panel rounded-2xl p-6 shadow-2xl shadow-blue-900/5 transition-all hover:shadow-blue-900/10">
             <div class="flex justify-between items-start mb-6">
                 <div>
                     <h2 class="text-xl font-bold mb-1">Telemetry Analysis</h2>
                     <p class="text-gray-400 text-sm">Real-time sensor data aggregation</p>
                 </div>
                 <div class="flex gap-2">
-                    <button class="px-3 py-1 bg-neonPurple text-white text-xs font-bold rounded shadow-lg shadow-purple-500/30">Minute</button>
-                    <button class="px-3 py-1 hover:bg-white/5 text-gray-400 text-xs font-bold rounded transition-colors">Hour</button>
-                    <button class="px-3 py-1 hover:bg-white/5 text-gray-400 text-xs font-bold rounded transition-colors">Day</button>
+                    <button
+                        class="px-3 py-1 bg-neonPurple text-white text-xs font-bold rounded shadow-lg shadow-purple-500/30">Minute</button>
+                    <button
+                        class="px-3 py-1 hover:bg-white/5 text-gray-400 text-xs font-bold rounded transition-colors">Hour</button>
+                    <button
+                        class="px-3 py-1 hover:bg-white/5 text-gray-400 text-xs font-bold rounded transition-colors">Day</button>
                 </div>
             </div>
 
@@ -80,22 +96,22 @@
             <div class="flex justify-end gap-6 mb-2 text-xs font-mono">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-neonPurple"></span>
-                    <span>Depth (m)</span>
+                    <span>pH Level</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-neonGreen"></span>
-                    <span>Temp (°C)</span>
+                    <span>Turbidity (NTU)</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-neonYellow"></span>
-                    <span>Pressure (bar)</span>
+                    <span>Battery (%)</span>
                 </div>
             </div>
 
             <div class="relative h-64 w-full">
                 <canvas id="telemetryChart"></canvas>
             </div>
-            
+
             <div class="mt-4 flex justify-between text-xs text-mono text-gray-500 font-mono">
                 <!-- Time labels will be rendered by chart, this is just visual filler if needed -->
             </div>
@@ -107,81 +123,105 @@
                 <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
                 <h2 class="text-sm font-bold tracking-widest text-gray-300 uppercase">System Logs</h2>
             </div>
-            
+
             <div class="flex-grow overflow-y-auto scrollbar-hide space-y-4 font-mono text-sm" id="logContainer">
                 <!-- Logs will be injected here -->
             </div>
-            
+
             <!-- Fade overlay at bottom -->
-            <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none"></div>
-             <!-- Scroll bar indicator -->
+            <div
+                class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none">
+            </div>
+            <!-- Scroll bar indicator -->
             <div class="absolute right-1 top-16 bottom-4 w-1 bg-gray-800 rounded-full overflow-hidden">
-                 <div class="w-full h-1/3 bg-gray-600 rounded-full absolute top-10"></div>
+                <div class="w-full h-1/3 bg-gray-600 rounded-full absolute top-10"></div>
             </div>
         </div>
     </main>
 
     <!-- Bottom Stat Cards -->
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
+
         <!-- Card 1: Water PH -->
         <div class="glass-panel rounded-2xl p-6 relative group overflow-hidden">
             <div class="absolute top-0 right-0 p-4">
-               <span class="text-[10px] font-bold bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-500/20">NORMAL</span>
+                <span
+                    class="text-[10px] font-bold bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-500/20">NORMAL</span>
             </div>
             <div class="w-10 h-10 rounded bg-blue-900/30 flex items-center justify-center mb-4 text-blue-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                 </svg>
             </div>
             <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Water PH</p>
-            <h3 class="text-3xl font-bold">7.24</h3>
-            <div class="absolute bottom-0 left-0 h-1 bg-blue-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <h3 class="text-3xl font-bold" id="ph-value">--</h3>
+            <div
+                class="absolute bottom-0 left-0 h-1 bg-blue-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300">
+            </div>
         </div>
 
         <!-- Card 2: Air Quality (Adapted to Environment/Turbidity for underwater context) -->
         <div class="glass-panel rounded-2xl p-6 relative group overflow-hidden">
             <div class="absolute top-0 right-0 p-4">
-               <span class="text-[10px] font-bold bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-500/20">GOOD</span>
+                <span
+                    class="text-[10px] font-bold bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-500/20">GOOD</span>
             </div>
             <div class="w-10 h-10 rounded bg-teal-900/30 flex items-center justify-center mb-4 text-teal-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
                 </svg>
             </div>
             <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Turbidity (NTU)</p>
-            <h3 class="text-3xl font-bold">1.2 <span class="text-sm text-gray-500 font-normal">LOW</span></h3>
-             <div class="absolute bottom-0 left-0 h-1 bg-teal-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <h3 class="text-3xl font-bold" id="turbidity-value">-- <span
+                    class="text-sm text-gray-500 font-normal">NTU</span></h3>
+            <div
+                class="absolute bottom-0 left-0 h-1 bg-teal-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300">
+            </div>
         </div>
 
         <!-- Card 3: Soil Moisture (Adapted to Seabed Distance) -->
         <div class="glass-panel rounded-2xl p-6 relative group overflow-hidden">
             <div class="absolute top-0 right-0 p-4">
-               <span class="text-[10px] font-bold bg-yellow-900/30 text-yellow-400 px-2 py-1 rounded border border-yellow-500/20">SCANNING</span>
+                <span
+                    class="text-[10px] font-bold bg-yellow-900/30 text-yellow-400 px-2 py-1 rounded border border-yellow-500/20">SCANNING</span>
             </div>
             <div class="w-10 h-10 rounded bg-yellow-900/30 flex items-center justify-center mb-4 text-yellow-400">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
             </div>
             <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Seabed Dist</p>
             <h3 class="text-3xl font-bold">48 <span class="text-sm text-gray-500 font-normal">m</span></h3>
-             <div class="absolute bottom-0 left-0 h-1 bg-yellow-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <div
+                class="absolute bottom-0 left-0 h-1 bg-yellow-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300">
+            </div>
         </div>
 
         <!-- Card 4: Energy Consumption -->
         <div class="glass-panel rounded-2xl p-6 relative group overflow-hidden">
             <div class="absolute top-0 right-0 p-4">
-               <span class="text-[10px] font-bold bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-500/20">OPTIMAL</span>
+                <span
+                    class="text-[10px] font-bold bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-500/20">OPTIMAL</span>
             </div>
-             <div class="w-10 h-10 rounded bg-purple-900/30 flex items-center justify-center mb-4 text-purple-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            <div class="w-10 h-10 rounded bg-purple-900/30 flex items-center justify-center mb-4 text-purple-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
             </div>
-            <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Energy Cons</p>
-            <h3 class="text-3xl font-bold">120W <span class="text-sm text-gray-500 font-normal">85%</span></h3>
-             <div class="absolute bottom-0 left-0 h-1 bg-purple-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Battery Level</p>
+            <h3 class="text-3xl font-bold" id="energy-value">-- <span class="text-sm text-gray-500 font-normal">%</span>
+            </h3>
+            <div
+                class="absolute bottom-0 left-0 h-1 bg-purple-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300">
+            </div>
         </div>
 
     </section>
@@ -197,15 +237,15 @@
             { type: 'INFO', msg: 'Navigation module calibrated.', color: 'text-blue-400' },
             { type: 'INFO', msg: 'Calibration sequence started.', color: 'text-blue-400' },
             { type: 'INFO', msg: 'Connection established to base.', color: 'text-blue-400' },
-             { type: 'WARN', msg: 'Minor pressure fluctuation detected.', color: 'text-yellow-400' },
-             { type: 'INFO', msg: 'Stabilizers engaged.', color: 'text-blue-400' }
+            { type: 'WARN', msg: 'Minor pressure fluctuation detected.', color: 'text-yellow-400' },
+            { type: 'INFO', msg: 'Stabilizers engaged.', color: 'text-blue-400' }
         ];
 
         function renderLogs() {
             logContainer.innerHTML = '';
             // Generate some timestamps for realism
             let time = new Date();
-            
+
             logMessages.forEach((log, index) => {
                 const logTime = new Date(time.getTime() - index * 2000).toLocaleTimeString('en-US', { hour12: false });
                 const logItem = document.createElement('div');
@@ -222,7 +262,7 @@
 
         // --- 2. Chart.js Implementation ---
         const ctx = document.getElementById('telemetryChart').getContext('2d');
-        
+
         // Gradient fills
         const purpleGradient = ctx.createLinearGradient(0, 0, 0, 400);
         purpleGradient.addColorStop(0, 'rgba(168, 85, 247, 0.2)');
@@ -233,15 +273,15 @@
         greenGradient.addColorStop(1, 'rgba(34, 197, 94, 0)');
 
         // Generate dummy data
-        const labels = Array.from({length: 20}, (_, i) => {
+        const labels = Array.from({ length: 20 }, (_, i) => {
             const d = new Date();
             d.setSeconds(d.getSeconds() - (20 - i) * 3);
-            return d.toLocaleTimeString('en-US', { hour: '2-digit', minute:'2-digit', second:'2-digit' });
+            return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         });
 
-        const dataDepth = Array.from({length: 20}, () => 40 + Math.random() * 20);
-        const dataTemp = Array.from({length: 20}, () => 18 + Math.random() * 4);
-        const dataPressure = Array.from({length: 20}, () => 10 + Math.random() * 2);
+        const dataDepth = Array.from({ length: 20 }, () => 40 + Math.random() * 20);
+        const dataTemp = Array.from({ length: 20 }, () => 18 + Math.random() * 4);
+        const dataPressure = Array.from({ length: 20 }, () => 10 + Math.random() * 2);
 
         const telemetryChart = new Chart(ctx, {
             type: 'line',
@@ -249,7 +289,7 @@
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Depth (m)',
+                        label: 'pH Level',
                         data: dataDepth,
                         borderColor: '#a855f7', // Neon Purple
                         backgroundColor: purpleGradient,
@@ -259,7 +299,7 @@
                         fill: true
                     },
                     {
-                        label: 'Temperature (°C)',
+                        label: 'Turbidity (NTU)',
                         data: dataTemp,
                         borderColor: '#22c55e', // Neon Green
                         backgroundColor: greenGradient,
@@ -269,7 +309,7 @@
                         fill: true
                     },
                     {
-                        label: 'Pressure (bar)',
+                        label: 'Battery (%)',
                         data: dataPressure,
                         borderColor: '#eab308', // Neon Yellow
                         borderWidth: 2,
@@ -322,6 +362,62 @@
             }
         });
 
+        // --- 3. Fetch Real-time Data ---
+        async function fetchDroneData() {
+            try {
+                // Fetch latest data for stat cards
+                const responseLatest = await fetch('api.php?get_latest=true');
+                const latestData = await responseLatest.json();
+
+                if (latestData && latestData.status !== 'empty') {
+                    if (latestData.kualitas_air !== undefined) {
+                        const phValue = parseFloat(latestData.kualitas_air).toFixed(2);
+                        document.getElementById('ph-value').innerHTML = `${phValue}`;
+                    }
+                    if (latestData.tahan !== undefined) {
+                        const turbidityValue = parseFloat(latestData.tahan).toFixed(2);
+                        let statusText = 'NTU';
+                        if (turbidityValue < 5) statusText = 'LOW';
+                        else if (turbidityValue < 15) statusText = 'MODERATE';
+                        else statusText = 'HIGH';
+                        document.getElementById('turbidity-value').innerHTML = `${turbidityValue} <span class="text-sm text-gray-500 font-normal">${statusText}</span>`;
+                    }
+                    if (latestData.daya_listrik !== undefined) {
+                        const energyValue = parseFloat(latestData.daya_listrik).toFixed(0);
+                        document.getElementById('energy-value').innerHTML = `${energyValue} <span class="text-sm text-gray-500 font-normal">%</span>`;
+                    }
+                }
+
+                // Fetch historic data for chart
+                const responseHistory = await fetch('api.php?get_history=true&limit=20');
+                const historyData = await responseHistory.json();
+
+                if (historyData && historyData.status === 'success' && historyData.data) {
+                    const ObjectArray = Array.isArray(historyData.data) ? historyData.data : [];
+                    if (ObjectArray.length > 0) {
+                        // Update chart labels
+                        telemetryChart.data.labels = ObjectArray.map(r => {
+                            const timePart = r.timestamp ? r.timestamp.split(' ')[1] : '';
+                            return timePart || '';
+                        });
+
+                        // Update datasets
+                        telemetryChart.data.datasets[0].data = ObjectArray.map(r => parseFloat(r.kualitas_air));
+                        telemetryChart.data.datasets[1].data = ObjectArray.map(r => parseFloat(r.tahan));
+                        telemetryChart.data.datasets[2].data = ObjectArray.map(r => parseFloat(r.daya_listrik));
+
+                        telemetryChart.update();
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching drone data:', error);
+            }
+        }
+
+        setInterval(fetchDroneData, 2000);
+        fetchDroneData(); // Initial fetch
+
     </script>
 </body>
+
 </html>
